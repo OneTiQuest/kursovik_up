@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+  client:
+    command: npm i && npm run start
+    image: node:lts
+    volumes:
+      - ./client:/next_client
+    ports:
+      - "3000:3000"
+  server:
+    command: npm i && npm run start
+    image: node:lts
+    volumes:
+      - ./server:/nest_server
+    ports:
+      - "3001:3001"
