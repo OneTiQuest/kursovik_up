@@ -1,6 +1,6 @@
-import Content from '@/app/dashboard/components/Content';
-import Header from '@/app/dashboard/components/Header';
-import SideBar from '@/app/dashboard/components/SideBar';
+import Content from '@/app/(dashboard)/dashboard/components/Content';
+import Header from '@/app/(dashboard)/dashboard/components/Header';
+import SideBar from '@/app/(dashboard)/dashboard/components/SideBar';
 import type { Metadata } from 'next';
 
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="ru">
-        <body className={'dashboard'}>
+        <body>
         <Header/>
         <SideBar/>
         <Content>
