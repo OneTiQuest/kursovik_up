@@ -1,22 +1,31 @@
 # Сервер
 Все команды нужно выполнять последовательно в каталоге server. \
 Для этого необходимо выполнить команду:
-- <code>cd ./server</code>
+### 1. <code>cd ./server</code>
+
+Получение всех зависимостей проекта:
+### 2. <code>npm i</code>
+
+
+## База данных
+Для выполнения миграции типов из схемы призмы:
+### 3. <code>npx prisma generate</code>
 
 Для запуска сервера базы данных нужно выполнить:
-- <code>npm run start:database</code>
+### 4. <code>npm run build && npm run start:database</code>
 
-Для иницализации базы данных нужно написать команды:
-- <code>npx prisma migrate dev --name init && npx prisma db seed</code>
+Для иницализации базы данных нужно написать команду:
+### 5. <code>npx prisma migrate dev --name init && npx prisma db seed</code>
 
 Для запуска сервера приложения нужно написать команду:
-- <code>npm i && npm run start:dev</code>
+### 6. <code>npm run start:dev</code>
 
+---
 # Клиент
 
 Все команды нужно выполнять последовательно в каталоге client. \
 Для этого необходимо выполнить команду:
-- <code>cd ./client</code>
+### 1. <code>cd ./client</code>
 
 Для запуска приложения:
-- <code>npm i && npm run dev</code>
+### 2. <code>npm i && npm run dev</code>

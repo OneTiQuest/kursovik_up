@@ -11,7 +11,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) { }
 
-    async signIn(login: string, pass: string): Promise<any> {
+    async signIn(login: string, pass: string): Promise<object> {
         const user = await this.usersService.findByLogin(login);
         if (!user?.password) throw new UnauthorizedException();
 
@@ -20,21 +20,31 @@ export class AuthService {
 
         const { password, ...result } = user;
 
-        const payload  = {sab: user.id, login};
         return {
-            access_tocen: await this.jwtService.signAsync(payload)
+            role: '',
+            access_token: this._genToken(user)
         };
     }
 
-    async signUp(body: any): Promise<boolean> {
-        const {password, ...lastBody} = body;
+    async signUp(body: any): Promise<object> {
+        const {pass, ...lastBody} = body;
 
         const salt = await genSalt();
-        const passHashed = await hash(password, salt);
+        const passHashed = await hash(pass, salt);
 
-        return this.usersService.create({
-            ...lastBody, 
-            password: passHashed
+        const user = await this.usersService.create({
+            ...lastBody,
+            pass: passHashed
         });
+
+        return {
+            role: '',
+            access_token: this._genToken(user)
+        }
+    }
+
+    private async _genToken(user) {
+        const payload  = {sab: user.id, login: user.login};
+        return this.jwtService.signAsync(payload);
     }
 }

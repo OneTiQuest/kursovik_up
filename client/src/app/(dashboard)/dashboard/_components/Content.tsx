@@ -1,5 +1,7 @@
+import './Content.css'
+
 function Content(props: Readonly<{ children: React.ReactNode; }>): React.ReactNode {
-    return <div className={'content'}>{props.children}</div>;
+    return <main className={'content'}>{props.children}</main>;
 }
 
 export default Content;

@@ -8,14 +8,14 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post('login')
-    async signIn(@Body() body: any): Promise<string> {
+    async signIn(@Body() body: any): Promise<object> {
         return this.authService.signIn(body.login, body.password);
     }
 
 
     @HttpCode(HttpStatus.OK)
     @Post('registry')
-    async signUp(@Body() body: any): Promise<boolean> {
+    async signUp(@Body() body: any): Promise<object> {
         return this.authService.signUp(body);
     }
 

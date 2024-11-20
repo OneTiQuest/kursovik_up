@@ -6,7 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "start:database": "G:/programs/postgres/bin/postgres -D G:/programs/postgres/data",
+    "start:database": "node dist/prisma/initDb.js",
+    "stop:database": "node dist/prisma/initDb.js --stop",
     "build": "nest build",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -23,6 +24,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.22.0",
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },

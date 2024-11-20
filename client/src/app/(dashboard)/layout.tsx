@@ -1,7 +1,8 @@
-import Content from '@/app/(dashboard)/dashboard/components/Content';
-import Header from '@/app/(dashboard)/dashboard/components/Header';
-import SideBar from '@/app/(dashboard)/dashboard/components/SideBar';
+import Content from '@/app/(dashboard)/dashboard/_components/Content';
+import Header from '@/app/(dashboard)/dashboard/_components/Header';
+import SideBar from '@/app/(dashboard)/dashboard/_components/SideBar';
 import type { Metadata } from 'next';
+import './style.css';
 
 
 export const metadata: Metadata = {
@@ -13,11 +14,13 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
     return (
         <html lang="ru">
         <body>
-        <Header/>
-        <SideBar/>
-        <Content>
-            {children}
-        </Content>
+        <div className={'dashboard'}>
+            <Header/>
+            <SideBar/>
+            <Content>
+                {children}
+            </Content>
+        </div>
         </body>
         </html>
     );

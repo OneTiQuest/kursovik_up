@@ -1,25 +1,41 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-    private readonly users = [
-        {
-            userId: 1,
-            username: 'john',
-            password: 'changeme',
-        },
-        {
-            userId: 2,
-            username: 'maria',
-            password: '$2b$14$rIxWWCnSi.qK.amy3FG2.OToq2UalaOIyqy2gQYGYyaZoUsCy97U6',
-        },
-    ];
-
-    async findByLogin(login: string): Promise<any> {
-        return this.users.find(user => user.username === login);
+    constructor(private readonly prismaService: PrismaService) {
     }
 
-    async create(userData): Promise<boolean> {
-        return !!this.users.push(userData);
+    findByLogin(login: string): Promise<any> {
+        return this.prismaService.user.findFirst({
+            where: {
+                login: login
+            },
+            include: {Role: true}
+        });
+    }
+
+    async create(userData: any): Promise<object> {
+        const hasUsers = await this.prismaService.user.findFirst();
+        console.log(hasUsers);
+        return this.prismaService.user.create({
+            data: {
+                ...userData,
+                Role: {connect: {role: {id: 2}}}
+            },
+            include: {
+                Role: true
+            }
+        });
+    }
+
+    async getAll(): Promise<any> {
+        return this.prismaService.user.findMany({
+            include: {
+                Role: {
+                    include: {role: true}
+                }
+            }
+        });
     }
 }
