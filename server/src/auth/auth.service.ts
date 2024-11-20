@@ -1,28 +1,27 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import {compare, hash, genSalt} from "bcrypt";
 import { JwtService } from '@nestjs/jwt';
+import { compare, genSalt, hash } from 'bcrypt';
+import { UsersService } from 'src/users/users.service';
 
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly usersService: UsersService,
-        private readonly jwtService: JwtService,
-    ) { }
+        private readonly jwtService: JwtService
+    ) {
+    }
 
     async signIn(login: string, pass: string): Promise<object> {
         const user = await this.usersService.findByLogin(login);
-        if (!user?.password) throw new UnauthorizedException();
+        if (!user?.pass) throw new UnauthorizedException();
 
-        const isEqual: boolean = await compare(pass, user?.password)
+        const isEqual: boolean = await compare(pass, user?.pass);
         if (!isEqual) throw new UnauthorizedException();
 
-        const { password, ...result } = user;
-
         return {
-            role: '',
-            access_token: this._genToken(user)
+            roles: user.Role,
+            access_token: await this._genToken(user)
         };
     }
 
@@ -38,13 +37,13 @@ export class AuthService {
         });
 
         return {
-            role: '',
-            access_token: this._genToken(user)
-        }
+            roles: user.Role,
+            access_token: await this._genToken(user)
+        };
     }
 
-    private async _genToken(user) {
-        const payload  = {sab: user.id, login: user.login};
+    private _genToken(user): Promise<string> {
+        const payload = {sab: user.id, login: user.login};
         return this.jwtService.signAsync(payload);
     }
 }

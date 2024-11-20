@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { User } from '@prisma/client'
 
 @Injectable()
 export class UsersService {
     constructor(private readonly prismaService: PrismaService) {
     }
 
-    findByLogin(login: string): Promise<any> {
+    findByLogin(login: string): Promise<Pick<User, any>> {
         return this.prismaService.user.findFirst({
             where: {
                 login: login
@@ -15,25 +16,46 @@ export class UsersService {
         });
     }
 
-    async create(userData: any): Promise<object> {
+    async create(userData: any): Promise<Pick<User, any>> {
         const hasUsers = await this.prismaService.user.findFirst();
-        console.log(hasUsers);
+
+        // TODO: Первому регистрируемому пользователю выдаются роль админа
+        if (!hasUsers) {
+            return this.prismaService.user.create({
+                data: {
+                    ...userData,
+                    Role: {create: {role: {connect: {id: 1}}}}
+                },
+                include: {
+                    Role: {
+                        select: {
+                            role: true
+                        }
+                    }
+                }
+            });
+        }
+
         return this.prismaService.user.create({
             data: {
                 ...userData,
-                Role: {connect: {role: {id: 2}}}
+                Role: {create: {role: {connect: {id: 2}}}}
             },
             include: {
-                Role: true
+                Role: {
+                    select: {
+                        role: true
+                    }
+                }
             }
         });
     }
 
-    async getAll(): Promise<any> {
+    async getAll(): Promise<Pick<User, any>[]> {
         return this.prismaService.user.findMany({
             include: {
                 Role: {
-                    include: {role: true}
+                    select: {role: true}
                 }
             }
         });
