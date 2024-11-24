@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from '@prisma/client'
 
 @Injectable()
 export class UsersService {
@@ -12,7 +12,18 @@ export class UsersService {
             where: {
                 login: login
             },
-            include: {Role: true}
+            include: {
+                Role: {
+                    select: {
+                        role: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                }
+            }
         });
     }
 
@@ -29,7 +40,12 @@ export class UsersService {
                 include: {
                     Role: {
                         select: {
-                            role: true
+                            role: {
+                                select: {
+                                    id: true,
+                                    name: true
+                                }
+                            }
                         }
                     }
                 }

@@ -1,3 +1,4 @@
+import { saveAuth } from '@/app/(app)/login/serverActions';
 import { validate } from '@/app/(app)/signup/func';
 import SignupForm from '@/app/(app)/signup/signupForm';
 import axios from '@/axios';
@@ -10,12 +11,13 @@ export default function Signup() {
         if (!validate(formData)) return;
 
         try {
-            await axios.post('/auth/registry', {
+            const userData = await axios.post('/auth/registry', {
                 login: formData.get('login'),
                 pass: formData.get('password'),
                 email: formData.get('email'),
                 phone: formData.get('phone')
             });
+            await saveAuth(userData.data);
         } catch (e) {
             // no auth
         }

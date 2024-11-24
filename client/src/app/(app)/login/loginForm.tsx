@@ -1,19 +1,26 @@
 'use client';
 
 import { validate } from '@/app/(app)/login/func';
+import { useRouter } from 'next/navigation';
 import { FormEvent, useCallback, useState } from 'react';
 
 export default function LoginForm({onSubmit}: { onSubmit: Function }) {
+    const router = useRouter()
     const [valid, setValid] = useState<object | boolean>(true);
-    const submitHandler = useCallback((event: FormEvent<HTMLFormElement>) => {
+
+    const submitHandler = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
 
         const validateData = validate(formData);
         setValid(validateData);
 
-        onSubmit(formData);
-    }, [onSubmit]);
+        const serverResult = await onSubmit(formData);
+        if (typeof serverResult === 'string') {
+            alert(serverResult)
+        } else if (serverResult) router.push('/dashboard')
+    }, []);
+
     return (
         <form onSubmit={submitHandler}>
             <fieldset>

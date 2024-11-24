@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare, genSalt, hash } from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
+import { jwtConstants } from './constants';
 
 
 @Injectable()
@@ -19,10 +20,7 @@ export class AuthService {
         const isEqual: boolean = await compare(pass, user?.pass);
         if (!isEqual) throw new UnauthorizedException();
 
-        return {
-            roles: user.Role,
-            access_token: await this._genToken(user)
-        };
+        return this._getUserAuth(user);
     }
 
     async signUp(body: any): Promise<object> {
@@ -36,9 +34,16 @@ export class AuthService {
             pass: passHashed
         });
 
+        return this._getUserAuth(user);
+    }
+
+    private async _getUserAuth(user: any): Promise<any> {
+        const token = await this._genToken(user);
+        const auth = (await this.jwtService.verifyAsync(token, {secret: jwtConstants.secret}));
         return {
-            roles: user.Role,
-            access_token: await this._genToken(user)
+            roles: user.Role.map((role) => role.role),
+            access_token: token,
+            duration: auth.exp - auth.iat
         };
     }
 
