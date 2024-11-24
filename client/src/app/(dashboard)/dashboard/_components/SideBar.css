@@ -7,7 +7,9 @@
     & > .logo-wrapper {
         height: 60px;
         padding: 12px;
-
+        -webkit-box-shadow: 0 0 12px 0 rgba(34, 60, 80, 0.6);
+        -moz-box-shadow: 0 0 12px 0 rgba(34, 60, 80, 0.6);
+        box-shadow: 0 0 12px 0 rgba(34, 60, 80, 0.6);
     }
 
     & > nav {
