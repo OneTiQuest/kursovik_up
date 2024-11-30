@@ -76,4 +76,8 @@ export class UsersService {
             }
         });
     }
+
+    async delete(id: number): Promise<Pick<User, any>> {
+        return this.prismaService.user.delete({where: {id}});
+    }
 }

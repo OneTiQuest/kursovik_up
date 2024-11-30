@@ -23,6 +23,10 @@ export default function SignupForm({onSubmit}: { onSubmit: Function }): ReactEle
                 {typeof valid !== 'boolean' && valid.login}
             </fieldset>
             <fieldset>
+                <label>Имя</label>
+                <input type={'text'} name={'name'}/>
+            </fieldset>
+            <fieldset>
                 <label>E-mail</label>
                 <input type={'email'} name={'email'}/>
             </fieldset>

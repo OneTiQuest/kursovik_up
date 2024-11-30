@@ -13,6 +13,7 @@ export default function Signup() {
         try {
             const userData = await axios.post('/auth/registry', {
                 login: formData.get('login'),
+                name: formData.get('name'),
                 pass: formData.get('password'),
                 email: formData.get('email'),
                 phone: formData.get('phone')

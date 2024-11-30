@@ -18,7 +18,7 @@ async function isAccessPage(req: NextRequest, path: string): Promise<boolean | N
         const roles = JSON.parse(auth)?.roles;
         if (!roles) return false;
 
-        const isAccess = roles.find((role) => role.name === 'admin');
+        const isAccess = roles.find((role: any) => role.name === 'admin');
         if (!isAccess && roles) return false;
     }
 

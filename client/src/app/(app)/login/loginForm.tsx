@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useCallback, useState } from 'react';
 
 export default function LoginForm({onSubmit}: { onSubmit: Function }) {
-    const router = useRouter()
+    const router = useRouter();
     const [valid, setValid] = useState<object | boolean>(true);
 
     const submitHandler = useCallback(async (event: FormEvent<HTMLFormElement>) => {
@@ -16,9 +16,13 @@ export default function LoginForm({onSubmit}: { onSubmit: Function }) {
         setValid(validateData);
 
         const serverResult = await onSubmit(formData);
-        if (typeof serverResult === 'string') {
-            alert(serverResult)
-        } else if (serverResult) router.push('/dashboard')
+        if (serverResult) {
+            router.push('/dashboard');
+        } else if (typeof serverResult !== 'string') {
+            router.push('/');
+        } else {
+            alert(serverResult);
+        }
     }, []);
 
     return (

@@ -1,8 +1,14 @@
-import axios from '@/axios';
+import Grid from '@/components/Grid';
+import Source from '@/components/source/Source';
 
 async function Access(): Promise<React.ReactNode> {
-    const access = await axios.get('/roles');
-    return <div>{JSON.stringify(access.data)}</div>;
+    const rolesSource = new Source({keyProperty: 'id', endpoint: '/roles'});
+    return (
+        <Grid columns={[{key: 'name', width: '1fr', itemProperty: 'name'}]}
+              preload={await rolesSource.getPreload()}
+              rowHeight={'28px'}
+        />
+    );
 }
 
 export default Access;

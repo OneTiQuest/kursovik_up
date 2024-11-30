@@ -50,11 +50,7 @@ export async function sendLoginForm(formData: FormData) {
         });
         await saveAuth(userData.data);
 
-        const hasPanelAccess = userData.data.roles.find(
-            (role) => role.name === 'admin'
-        );
-
-        return hasPanelAccess;
+        return userData.data.roles.find((role) => role.name === 'admin');
 
     } catch (e) {
         switch (e?.status) {

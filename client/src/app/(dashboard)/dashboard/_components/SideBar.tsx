@@ -9,8 +9,9 @@ function SideBar(): React.ReactNode {
         <nav>
             <Link href={'/dashboard'}>Главная</Link>
             <Link href={'/dashboard/users'}>Пользователи</Link>
-            <Link href={'/dashboard/images'}>Изображения</Link>
             <Link href={'/dashboard/access'}>Доступ</Link>
+            <Link href={'/dashboard/navigation'}>Навигация</Link>
+            <Link href={'/dashboard/images'}>Изображения</Link>
             <Link href={'/dashboard/content'}>Контент</Link>
             <Link href={'/dashboard/modules'}>Модули</Link>
         </nav>

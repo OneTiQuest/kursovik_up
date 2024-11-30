@@ -9,6 +9,7 @@ async function main() {
             {name: 'guest'}
         ]
     });
+    await prisma.navigation.create({data: {name: 'Главная', path: '/'}})
 }
 
 main()

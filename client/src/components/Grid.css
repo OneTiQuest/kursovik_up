@@ -1,0 +1,45 @@
+.grid {
+    box-shadow: 1px 1px 4px -4px rgba(34, 60, 80, 0.6);
+}
+
+.grid-row {
+    display: grid;
+    position: relative;
+    grid-gap: 1px;
+    align-items: center;
+    background: aliceblue;
+    box-shadow: 0 1px 1px -4px rgba(34, 60, 80, 0.6);
+}
+.grid-row > div{
+    overflow: hidden;
+}
+
+.grid-row:first-child {
+    background: var(--bg-color);
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.grid-row:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.actions {
+    position: absolute;
+    display: none;
+    right: 0;
+    top: 0;
+    height: 100%;
+}
+
+.action-item {
+    height: 100%;
+    cursor: pointer;
+}
+
+.grid-row:hover .actions {
+    display: flex;
+}
+

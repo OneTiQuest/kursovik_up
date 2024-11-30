@@ -1,8 +1,9 @@
-import axios from '@/axios';
+import UsersGrid from '@/app/(dashboard)/dashboard/users/UsersGrid';
+import Source from '@/components/source/Source';
 
 async function Page(): Promise<React.ReactNode> {
-    const users = await axios.get('/users');
-    return <div>{JSON.stringify(users.data)}</div>;
+    const usersSource = new Source({keyProperty: 'id', endpoint: '/users'});
+    return <UsersGrid preload={await usersSource.getPreload()}/>;
 }
 
 export default Page;
